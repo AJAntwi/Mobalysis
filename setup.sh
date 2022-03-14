@@ -27,3 +27,27 @@ cd $user_dir
 echo "removing existing files from user directory..."
 sudo rm -rf $user_dir/*
 sudo git clone https://github.com/AJAntwi/Mobalysis.git
+
+echo "installing dependencies"
+sudo apt install -y build-essential libssl-dev libffi-dev
+
+echo "installing python version 3.9"
+sudo apt install python3.9
+
+echo "Installing pip3 to manage software packages"
+sudo apt install pip3
+
+echo "Installing python venv"
+sudo apt install python3.9-venv
+
+echo "Creating an empty database"
+
+set -e
+
+DB_NAME="mobalytics"
+DB_USER="mob_db_user"
+sudo su postgres <<EOF
+createdb  $DB_NAME;
+psql -c "grant all privileges on database $DB_NAME to $DB_USER;"
+echo "Postgres User '$DB_USER' and database '$DB_NAME' created."
+EOF
